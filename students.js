@@ -43,11 +43,41 @@ router.get('/:idVariable', async(req, res) => {
     }
 })
 
+// GET all student from particular city
+// Endpoint: /api/v2/students/city/karachi
+
+router.get('/city/:cityVar', async(req, res) => {
+    try {
+        await students.find({city: req.params.cityVar}, (err, data) => {
+            if(err) {
+                res.status(500).json({message: "Error in the DB"});
+            }
+            if((data!= null) && (data.length>0)){
+                res.status(200).send(data);
+            }
+            else {                  //data.length=0
+                res.status(400).json({message: "No Students from this city"});
+            }
+        })
+    }
+    catch {
+        res.status(500).json({message: "Error in this API"})
+    }
+})
+
+// Homework 1
+// GET the average score for all the students
+// Endpoint: /api/v2/students/avgScore
+
 // POST students data to the db
 // Endpoint: /api/v2/students
 
 router.post('/', async (req, res) => {
     try {
+        // Homework 2
+        // first check if student with this name is already in the database
+        // If not, Add the student
+        // If yes, tell frontend that this student name is already exists.
         await students.insert(req.body);
         res.status(200).json({message: "Student Added Successfully"});
     }
@@ -97,6 +127,30 @@ router.delete('/:idVariable', async(req,res) => {
                 res.status(400).json({message: "Student with this ID does not exist"});
             }
         });
+    }
+    catch {
+        res.status(500).json({message: "Error in this API"});
+    }
+})
+
+
+// Delete All students Data from db
+// Endpoint: /api/v2/students
+
+router.delete('/', async(req,res) => {
+    try {
+        await students.remove({}, {multi: true}, (err, isDataDeleted) => {
+            if(err) { 
+                return res.status(500).json({message: "Error in the DB"}); 
+            }
+            if(isDataDeleted){
+                res.status(200).json({message: "Student Deleted Successfully"});
+            }
+            else {
+                res.status(400).json({message: "No Student Data in the DB"});
+            }
+        })
+        
     }
     catch {
         res.status(500).json({message: "Error in this API"});
