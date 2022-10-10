@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.get('/api/v2/test', (req, res) => {
-    res.send("NODE CRUD Student System is Running");
+    res.status(200).json({message: "NODE CRUD Student System is Running"})
 } )
 
 // Import students route
