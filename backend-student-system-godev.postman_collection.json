@@ -279,6 +279,74 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "studentAvgScore",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Average Score of the students are \");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v2/students/avgScore",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v2",
+						"students",
+						"avgScore"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkStudentNameDB",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"teststudent4\",\r\n    \"rollno\": 8,\r\n    \"score\": 7,\r\n    \"city\": \"GB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v2/students/name/teststudent4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v2",
+						"students",
+						"name",
+						"teststudent4"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
